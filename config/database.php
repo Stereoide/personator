@@ -67,11 +67,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', $url['host']),
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => env('DB_DATABASE', substr($url['path'], 1)),
+            'username' => env('DB_USERNAME', $url['user']),
+            'password' => env('DB_PASSWORD', $url['pass']),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
