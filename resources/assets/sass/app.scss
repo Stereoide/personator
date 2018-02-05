@@ -7,3 +7,17 @@
 
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+LI.like {
+  background-color: #cdffe1;
+}
+LI.like:before {
+  content: 'mag: ';
+}
+
+LI.dislike {
+  background-color: #ffcdcd;
+}
+LI.dislike:before {
+  content: 'mag nicht: ';
+}
