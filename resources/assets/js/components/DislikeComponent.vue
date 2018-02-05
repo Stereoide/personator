@@ -1,5 +1,5 @@
 <template>
-    <li class="list-group-item dislike">{{ dislike }}</li>
+    <li class="list-group-item dislike">{{ dislike.name }}</li>
 </template>
 
 <script>

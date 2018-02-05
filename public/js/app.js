@@ -1091,6 +1091,23 @@ __webpack_require__(12);
 window.Vue = __webpack_require__(36);
 
 /**
+ * Configure AJAX endpoints
+ */
+
+window.ajaxBase = 'api';
+window.ajaxPersonBase = window.ajaxBase + '/persons';
+
+/**
+ * Configure AJAX headers
+ */
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+/**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
@@ -43209,35 +43226,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             nextPersonId: 3,
             newPersonName: '',
-            persons: [{
-                id: 1,
-                name: 'Nisi',
-                likes: ['Schoki'],
-                dislikes: []
-            }, {
-                id: 2,
-                name: 'Jörn',
-                likes: ['Videospiele', 'Kino'],
-                dislikes: ['Schwimmen']
-            }]
+            persons: []
         };
     },
 
 
     methods: {
+        fetchPersons: function fetchPersons() {
+            var self = this;
+
+            $.getJSON(window.ajaxPersonBase, function (response) {
+                self.persons = response;
+            });
+        },
         addPerson: function addPerson() {
-            var newPerson = {
-                id: this.nextPersonId++,
-                name: this.newPersonName,
-                likes: [],
-                dislikes: []
-            };
-            this.persons.push(newPerson);
-            this.newPersonName = '';
+            var self = this;
+
+            if (this.newPersonName != '') {
+                $.post(window.ajaxPersonBase, {
+                    name: this.newPersonName
+                }, function (response) {
+                    self.persons.push(response);
+                }, 'json');
+
+                this.newPersonName = '';
+            }
         }
     },
 
-    mounted: function mounted() {}
+    mounted: function mounted() {
+        this.fetchPersons();
+    }
 });
 
 /***/ }),
@@ -43428,9 +43447,21 @@ var render = function() {
       _vm._v("\n    " + _vm._s(_vm.name)),
       _c("br"),
       _vm._v(" "),
-      _c("likes", { attrs: { likes: _vm.likes } }),
+      _c("likes", {
+        attrs: {
+          "person-name": _vm.name,
+          "person-id": _vm.id,
+          likes: _vm.likes
+        }
+      }),
       _vm._v(" "),
-      _c("dislikes", { attrs: { dislikes: _vm.dislikes } })
+      _c("dislikes", {
+        attrs: {
+          "person-name": _vm.name,
+          "person-id": _vm.id,
+          dislikes: _vm.dislikes
+        }
+      })
     ],
     1
   )
@@ -43512,7 +43543,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['likes'],
+    props: ['personId', 'personName', 'likes'],
 
     data: function data() {
         return {
@@ -43523,8 +43554,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         addLike: function addLike() {
-            this.likes.push(this.newLike);
-            this.newLike = '';
+            var self = this;
+
+            if (this.newLike != '') {
+                $.post(window.ajaxPersonBase + '/' + this.personId + '/likes', {
+                    personId: this.personId,
+                    name: this.newLike
+                }, function (response) {
+                    self.likes.push(response);
+                }, 'json');
+
+                this.newLike = '';
+            }
         }
     },
 
@@ -43548,7 +43589,7 @@ var render = function() {
           return _c("like", { key: index, attrs: { like: like } })
         }),
         _vm._v(" "),
-        _c("li", { staticClass: "list-group-item like" }, [
+        _c("li", { staticClass: "list-group-item like no-prefix" }, [
           _c("input", {
             directives: [
               {
@@ -43559,7 +43600,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
-            attrs: { type: "text" },
+            attrs: { type: "text", placeholder: "was mag er/sie noch?" },
             domProps: { value: _vm.newLike },
             on: {
               input: function($event) {
@@ -43672,7 +43713,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("li", { staticClass: "list-group-item like" }, [
-    _vm._v(_vm._s(_vm.like))
+    _vm._v(_vm._s(_vm.like.name))
   ])
 }
 var staticRenderFns = []
@@ -43752,7 +43793,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['dislikes'],
+    props: ['personId', 'personName', 'dislikes'],
 
     data: function data() {
         return {
@@ -43763,8 +43804,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         addDislike: function addDislike() {
-            this.dislikes.push(this.newDislike);
-            this.newDislike = '';
+            var self = this;
+
+            if (this.newDislike != '') {
+                $.post(window.ajaxPersonBase + '/' + this.personId + '/dislikes', {
+                    personId: this.personId,
+                    name: this.newDislike
+                }, function (response) {
+                    self.dislikes.push(response);
+                }, 'json');
+
+                this.newDislike = '';
+            }
         }
     },
 
@@ -43788,7 +43839,7 @@ var render = function() {
           return _c("dislike", { key: index, attrs: { dislike: dislike } })
         }),
         _vm._v(" "),
-        _c("li", { staticClass: "list-group-item dislike" }, [
+        _c("li", { staticClass: "list-group-item dislike no-prefix" }, [
           _c("input", {
             directives: [
               {
@@ -43799,7 +43850,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
-            attrs: { type: "text" },
+            attrs: { type: "text", placeholder: "was mag er/sie noch nicht?" },
             domProps: { value: _vm.newDislike },
             on: {
               input: function($event) {
@@ -43912,7 +43963,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("li", { staticClass: "list-group-item dislike" }, [
-    _vm._v(_vm._s(_vm.dislike))
+    _vm._v(_vm._s(_vm.dislike.name))
   ])
 }
 var staticRenderFns = []

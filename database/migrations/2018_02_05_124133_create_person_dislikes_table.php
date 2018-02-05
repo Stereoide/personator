@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePersonDislikesActivityTable extends Migration
+class CreatePersonDislikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePersonDislikesActivityTable extends Migration
      */
     public function up()
     {
-        Schema::create('person_dislikes_activity', function (Blueprint $table) {
+        Schema::create('person_dislikes', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('person_id');
-            $table->unsignedInteger('activity_id');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreatePersonDislikesActivityTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('person_dislikes_activity');
+        Schema::dropIfExists('person_dislikes');
     }
 }

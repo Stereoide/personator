@@ -11,13 +11,23 @@
 LI.like {
   background-color: #cdffe1;
 }
+
 LI.like:before {
   content: 'mag: ';
+}
+
+LI.like.no-prefix:before {
+  content: '';
 }
 
 LI.dislike {
   background-color: #ffcdcd;
 }
+
 LI.dislike:before {
   content: 'mag nicht: ';
+}
+
+LI.dislike.no-prefix:before {
+  content: '';
 }

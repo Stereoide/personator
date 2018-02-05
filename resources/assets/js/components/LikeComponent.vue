@@ -1,5 +1,5 @@
 <template>
-    <li class="list-group-item like">{{ like }}</li>
+    <li class="list-group-item like">{{ like.name }}</li>
 </template>
 
 <script>

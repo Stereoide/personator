@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Activity extends Model
+class PersonDislike extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,15 +12,15 @@ class Activity extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'name',
+        'person_id', 'name',
     ];
 
     /**
      * Relationships
      */
 
-    public function user()
+    public function person()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Person');
     }
 }

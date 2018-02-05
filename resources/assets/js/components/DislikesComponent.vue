@@ -2,8 +2,8 @@
     <div>
         <ul class="list-group">
             <dislike v-for="(dislike, index) in dislikes" :key="index" :dislike="dislike"></dislike>
-            <li class="list-group-item dislike">
-                <input type="text" class="form-control" v-model="newDislike">
+            <li class="list-group-item dislike no-prefix">
+                <input type="text" class="form-control" v-model="newDislike" placeholder="was mag er/sie noch nicht?" />
                 <button class="btn btn-primary" @click="addDislike">hinzufügen</button>
             </li>
         </ul>
@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        props: ['dislikes'],
+        props: ['personId', 'personName', 'dislikes'],
 
         data() {
             return {
@@ -22,8 +22,23 @@
 
         methods: {
             addDislike() {
-                this.dislikes.push(this.newDislike);
-                this.newDislike = '';
+                let self = this;
+
+                if (this.newDislike != '') {
+                    $.post(
+                        window.ajaxPersonBase + '/' + this.personId + '/dislikes',
+                        {
+                            personId: this.personId,
+                            name: this.newDislike
+                        },
+                        function(response) {
+                            self.dislikes.push(response);
+                        },
+                        'json'
+                    );
+
+                    this.newDislike = '';
+                }
             }
         },
 

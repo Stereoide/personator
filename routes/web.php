@@ -11,10 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->prefix('api')->name('')->group(function() {
+    Route::apiResource('persons', 'PersonController');
+    Route::apiResource('persons.likes', 'PersonLikeController');
+    Route::apiResource('persons.dislikes', 'PersonDislikeController');
+});

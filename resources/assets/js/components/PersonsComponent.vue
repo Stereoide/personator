@@ -26,38 +26,44 @@
             return {
                 nextPersonId: 3,
                 newPersonName: '',
-                persons: [
-                    {
-                        id: 1,
-                        name: 'Nisi',
-                        likes: ['Schoki'],
-                        dislikes: []
-                    },
-                    {
-                        id: 2,
-                        name: 'Jörn',
-                        likes: ['Videospiele', 'Kino'],
-                        dislikes: ['Schwimmen']
-                    }
-                ]
+                persons: []
             };
         },
 
         methods: {
+            fetchPersons() {
+                let self = this;
+
+                $.getJSON(
+                    window.ajaxPersonBase,
+                    function(response) {
+                        self.persons = response;
+                    }
+                );
+            },
+
             addPerson() {
-                let newPerson = {
-                    id: this.nextPersonId++,
-                    name: this.newPersonName,
-                    likes: [],
-                    dislikes: []
-                };
-                this.persons.push(newPerson);
-                this.newPersonName = '';
+                let self = this;
+
+                if (this.newPersonName != '') {
+                    $.post(
+                        window.ajaxPersonBase,
+                        {
+                            name: this.newPersonName
+                        },
+                        function(response) {
+                            self.persons.push(response);
+                        },
+                        'json'
+                    );
+
+                    this.newPersonName = '';
+                }
             }
         },
 
         mounted() {
-
+            this.fetchPersons();
         }
     }
 </script>
