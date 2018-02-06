@@ -1,32 +1,42 @@
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Persons</div>
+        <person v-for="person in persons" :key="person.id" :id="person.id" :name="person.name" :likes="person.likes" :dislikes="person.dislikes"></person>
 
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <person v-for="person in persons" :key="person.id" :id="person.id" :name="person.name" :likes="person.likes" :dislikes="person.dislikes"></person>
-                            <li class="list-group-item">
-                                <input type="text" class="form-control" v-model="newPersonName">
-                                <button class="btn btn-primary" @click="addPerson">Person hinzufügen</button>
-                            </li>
-                        </ul>
+        <div class="modal is-active" v-show="isAddingPerson">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box">
+                    <h2>Neue Person hinzufügen</h2>
+
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" placeholder="Name" value="">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
                     </div>
+
+                    <button class="button is-link" @click="addPerson">Person hinzufügen</button>
+                    <button class="button is- is-right" @click="$emit('close-add-person-modal')">Abbrechen</button>
                 </div>
             </div>
+
+            <button class="modal-close is-large" aria-label="close" @click="$emit('close-add-person-modal')"></button>
         </div>
     </div>
 </template>
 
 <script>
     export default {
+        props: ['isAddingPerson'],
+
         data() {
             return {
                 nextPersonId: 3,
                 newPersonName: '',
-                persons: []
+                persons: [],
+                isShowingNewPersonModal: false
             };
         },
 
@@ -58,6 +68,14 @@
                     );
 
                     this.newPersonName = '';
+
+                    /* Close modal */
+
+                    this.$emit('close-add-person-modal');
+                } else {
+                    /* Close modal */
+
+                    this.$emit('close-add-person-modal');
                 }
             }
         },

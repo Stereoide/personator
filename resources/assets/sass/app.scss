@@ -1,33 +1,19 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
-// Variables
-@import "variables";
-
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
-
-LI.like {
-  background-color: #cdffe1;
+UL.likes LI:before {
+  content: '+ ';
 }
 
-LI.like:before {
-  content: 'mag: ';
-}
-
-LI.like.no-prefix:before {
+UL.likes LI.no-prefix:before {
   content: '';
 }
 
-LI.dislike {
-  background-color: #ffcdcd;
+UL.dislikes LI:before {
+  content: '- ';
 }
 
-LI.dislike:before {
-  content: 'mag nicht: ';
-}
-
-LI.dislike.no-prefix:before {
+UL.dislikes LI.no-prefix:before {
   content: '';
+}
+
+.message {
+  margin-bottom: 1em;
 }

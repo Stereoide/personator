@@ -1,10 +1,16 @@
 <template>
     <div>
-        <ul class="list-group">
+        <ul class="list-group likes">
             <like v-for="(like, index) in likes" :key="index" :like="like"></like>
+
             <li class="list-group-item like no-prefix">
-                <input type="text" class="form-control" v-model="newLike" placeholder="was mag er/sie noch?" />
-                <button class="btn btn-primary" @click="addLike">hinzufügen</button>
+                <div class="field is-grouped">
+                    <div class="control is-expanded">
+                        <input class="input" type="text" v-model="newLike" :placeholder="placeholder">
+                    </div>
+
+                    <button class="button" @click="addLike">hinzufügen</button>
+                </div>
             </li>
         </ul>
     </div>
@@ -39,6 +45,12 @@
 
                     this.newLike = '';
                 }
+            }
+        },
+
+        computed: {
+            placeholder() {
+                return 'was mag ' + this.personName + (this.likes.length > 0 ? ' noch' : '') + '?';
             }
         },
 

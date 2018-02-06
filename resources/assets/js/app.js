@@ -32,7 +32,6 @@ $.ajaxSetup({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('persons', require('./components/PersonsComponent.vue'));
 Vue.component('person', require('./components/PersonComponent.vue'));
 Vue.component('likes', require('./components/LikesComponent.vue'));
@@ -41,5 +40,8 @@ Vue.component('dislikes', require('./components/DislikesComponent.vue'));
 Vue.component('dislike', require('./components/DislikeComponent.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        isAddingPerson: false,
+    }
 });

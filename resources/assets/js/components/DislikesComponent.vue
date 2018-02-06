@@ -1,10 +1,16 @@
 <template>
     <div>
-        <ul class="list-group">
+        <ul class="list-group dislikes">
             <dislike v-for="(dislike, index) in dislikes" :key="index" :dislike="dislike"></dislike>
+
             <li class="list-group-item dislike no-prefix">
-                <input type="text" class="form-control" v-model="newDislike" placeholder="was mag er/sie noch nicht?" />
-                <button class="btn btn-primary" @click="addDislike">hinzufügen</button>
+                <div class="field is-grouped">
+                    <div class="control is-expanded">
+                        <input class="input" type="text" v-model="newDislike" :placeholder="placeholder">
+                    </div>
+
+                    <button class="button" @click="addDislike">hinzufügen</button>
+                </div>
             </li>
         </ul>
     </div>
@@ -39,6 +45,12 @@
 
                     this.newDislike = '';
                 }
+            }
+        },
+
+        computed: {
+            placeholder() {
+                return 'was mag ' + this.personName + (this.dislikes.length > 0 ? ' noch' : '') + ' nicht?';
             }
         },
 
