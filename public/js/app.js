@@ -43198,10 +43198,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            nextPersonId: 3,
             newPersonName: '',
-            persons: [],
-            isShowingNewPersonModal: false
+            persons: []
         };
     },
 
@@ -43286,7 +43284,33 @@ var render = function() {
             _c("div", { staticClass: "box" }, [
               _c("h2", [_vm._v("Neue Person hinzufügen")]),
               _vm._v(" "),
-              _vm._m(0),
+              _c("div", { staticClass: "field" }, [
+                _c("div", { staticClass: "control has-icons-left" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newPersonName,
+                        expression: "newPersonName"
+                      }
+                    ],
+                    staticClass: "input",
+                    attrs: { type: "text", placeholder: "Name" },
+                    domProps: { value: _vm.newPersonName },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.newPersonName = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ])
+              ]),
               _vm._v(" "),
               _c(
                 "button",
@@ -43329,17 +43353,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "field" }, [
-      _c("div", { staticClass: "control has-icons-left" }, [
-        _c("input", {
-          staticClass: "input",
-          attrs: { type: "text", placeholder: "Name", value: "" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "icon is-small is-left" }, [
-          _c("i", { staticClass: "fas fa-user" })
-        ])
-      ])
+    return _c("span", { staticClass: "icon is-small is-left" }, [
+      _c("i", { staticClass: "fas fa-user" })
     ])
   }
 ]
