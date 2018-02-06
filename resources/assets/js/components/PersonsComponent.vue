@@ -10,7 +10,7 @@
 
                     <div class="field">
                         <div class="control has-icons-left">
-                            <input class="input" type="text" placeholder="Name" value="">
+                            <input class="input" type="text" placeholder="Name" v-model="newPersonName">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-user"></i>
                             </span>
@@ -33,10 +33,8 @@
 
         data() {
             return {
-                nextPersonId: 3,
                 newPersonName: '',
-                persons: [],
-                isShowingNewPersonModal: false
+                persons: []
             };
         },
 
